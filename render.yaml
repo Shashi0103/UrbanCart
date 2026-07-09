@@ -28,7 +28,6 @@ services:
   - type: web
     name: urbancart
     runtime: static
-    region: singapore
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
