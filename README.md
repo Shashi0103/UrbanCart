@@ -1,6 +1,6 @@
 # 🛒 UrbanCart
 
-> A modern, full-stack e-commerce web application built with the MERN stack — featuring real-time cart management, JWT authentication, order tracking, and a sleek premium UI.
+> A modern, full-stack e-commerce web application built with the MERN stack — featuring real-time cart management, JWT authentication, order tracking, a personalized product recommendation system, a mock Stripe sandbox checkout simulation, and a sleek premium UI.
 
 ---
 
