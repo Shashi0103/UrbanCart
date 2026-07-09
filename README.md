@@ -6,7 +6,8 @@
 
 ## 🌟 Live Demo
 
-> 🔗 Coming soon — deploying on Render
+- **Frontend**: [urbancartshopping.onrender.com](https://urbancartshopping.onrender.com)
+- **Backend API**: [urbancart-api.onrender.com](https://urbancart-api.onrender.com)
 
 ---
 
