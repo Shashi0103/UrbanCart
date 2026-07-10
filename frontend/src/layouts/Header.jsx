@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice.js';
 import { clearCart } from '../redux/slices/cartSlice.js';
+import { setWishlistItems } from '../redux/slices/wishlistSlice.js';
 import { addToast } from '../redux/slices/notificationSlice.js';
 import apiService from '../api/apiService.js';
 import { 
@@ -24,7 +25,8 @@ import {
 export default function Header() {
   const { user, token } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart.items);
-  const [wishlistCount, setWishlistCount] = useState(0);
+  const wishlistItems = useSelector((state) => state.wishlist.items || []);
+  const wishlistCount = wishlistItems.filter(Boolean).length;
   const [categories, setCategories] = useState([]);
   
   const dispatch = useDispatch();
@@ -55,14 +57,14 @@ export default function Header() {
 
     if (token) {
       apiService.wishlist.get()
-        .then(items => setWishlistCount(items.length))
-        .catch(err => console.error('Failed to load wishlist count', err));
+        .then(items => dispatch(setWishlistItems(items)))
+        .catch(err => console.error('Failed to load wishlist items', err));
 
       apiService.notifications.getAll()
         .then(notifs => setUnreadNotifications(notifs.filter(n => !n.read).length))
         .catch(err => console.error(err));
     } else {
-      setWishlistCount(0);
+      dispatch(setWishlistItems([]));
       setUnreadNotifications(0);
     }
   }, [token, cartItems]); // Re-run when cart details changes or login status updates
@@ -153,6 +155,7 @@ export default function Header() {
     } finally {
       dispatch(logout());
       dispatch(clearCart());
+      dispatch(setWishlistItems([]));
       dispatch(addToast({ text: 'Logged out successfully', type: 'info' }));
       navigate('/');
     }
@@ -369,6 +372,11 @@ export default function Header() {
             {/* Wishlist Mobile */}
             <Link to="/dashboard/wishlist" className="relative p-1 text-gray-600">
               <Heart className="w-5 h-5" />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-secondary text-[8px] font-bold rounded-full flex items-center justify-center">
+                  {wishlistCount}
+                </span>
+              )}
             </Link>
 
             {/* Cart Mobile */}
