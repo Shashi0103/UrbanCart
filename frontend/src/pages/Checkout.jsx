@@ -49,9 +49,55 @@ export default function Checkout() {
   const [cardNumber, setCardNumber] = useState('');
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCVC, setCardCVC] = useState('');
+  const [cardErrors, setCardErrors] = useState({ name: '', number: '', expiry: '', cvc: '' });
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [paymentStatusText, setPaymentStatusText] = useState('Securing connection...');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+
+  // Card formatting helpers
+  const formatCardNumber = (val) => {
+    const digits = val.replace(/\D/g, '').slice(0, 16);
+    return digits.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+  };
+  const formatExpiry = (val) => {
+    const digits = val.replace(/\D/g, '').slice(0, 4);
+    if (digits.length >= 3) return digits.slice(0, 2) + '/' + digits.slice(2);
+    return digits;
+  };
+
+  const validateCard = (field, value) => {
+    const errs = { ...cardErrors };
+    if (field === 'name') {
+      errs.name = value.trim().length < 2 ? 'Please enter the card holder name.' : '';
+    }
+    if (field === 'number') {
+      const digits = value.replace(/\s/g, '');
+      errs.number = digits.length !== 16 ? 'Card number must be exactly 16 digits.' : '';
+    }
+    if (field === 'expiry') {
+      const match = value.match(/^(\d{2})\/(\d{2})$/);
+      if (!match) { errs.expiry = 'Use MM/YY format (e.g. 12/29).'; }
+      else {
+        const month = parseInt(match[1], 10);
+        const year = 2000 + parseInt(match[2], 10);
+        const now = new Date();
+        if (month < 1 || month > 12) errs.expiry = 'Month must be between 01 and 12.';
+        else if (year < now.getFullYear() || (year === now.getFullYear() && month < now.getMonth() + 1))
+          errs.expiry = 'Card has expired.';
+        else errs.expiry = '';
+      }
+    }
+    if (field === 'cvc') {
+      errs.cvc = /^\d{3}$/.test(value) ? '' : 'CVC must be exactly 3 digits.';
+    }
+    setCardErrors(errs);
+  };
+
+  const isCardValid = paymentMethod !== 'Stripe' ||
+    (cardName.trim().length >= 2 &&
+     cardNumber.replace(/\s/g, '').length === 16 &&
+     /^\d{2}\/\d{2}$/.test(cardExpiry) && !cardErrors.expiry &&
+     /^\d{3}$/.test(cardCVC));
 
   // Sync saved addresses on load if logged in
   useEffect(() => {
@@ -506,6 +552,7 @@ export default function Checkout() {
                 </div>
 
                 <div className="space-y-3">
+                  {/* Card Holder Name */}
                   <div>
                     <label className="text-[10px] uppercase font-bold text-gray-400 block mb-1">Card Holder Name</label>
                     <input
@@ -513,10 +560,18 @@ export default function Checkout() {
                       required
                       placeholder="John Doe"
                       value={cardName}
-                      onChange={(e) => setCardName(e.target.value)}
-                      className="w-full bg-[#F5F5F5] border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-primary text-gray-800"
+                      onChange={(e) => {
+                        setCardName(e.target.value);
+                        validateCard('name', e.target.value);
+                      }}
+                      className={`w-full bg-[#F5F5F5] border rounded-lg px-3 py-2 text-xs focus:outline-none text-gray-800 ${
+                        cardErrors.name ? 'border-red-400 focus:border-red-400' : 'border-slate-200 focus:border-primary'
+                      }`}
                     />
+                    {cardErrors.name && <p className="text-[10px] text-red-500 mt-1 font-medium">{cardErrors.name}</p>}
                   </div>
+
+                  {/* Card Number */}
                   <div>
                     <label className="text-[10px] uppercase font-bold text-gray-400 block mb-1">Card Number</label>
                     <input
@@ -524,22 +579,42 @@ export default function Checkout() {
                       required
                       placeholder="4242 4242 4242 4242"
                       value={cardNumber}
-                      onChange={(e) => setCardNumber(e.target.value)}
-                      className="w-full bg-[#F5F5F5] border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-primary text-gray-800 font-mono"
+                      maxLength={19}
+                      onChange={(e) => {
+                        const formatted = formatCardNumber(e.target.value);
+                        setCardNumber(formatted);
+                        validateCard('number', formatted);
+                      }}
+                      className={`w-full bg-[#F5F5F5] border rounded-lg px-3 py-2 text-xs focus:outline-none text-gray-800 font-mono ${
+                        cardErrors.number ? 'border-red-400 focus:border-red-400' : 'border-slate-200 focus:border-primary'
+                      }`}
                     />
+                    {cardErrors.number && <p className="text-[10px] text-red-500 mt-1 font-medium">{cardErrors.number}</p>}
                   </div>
+
                   <div className="grid grid-cols-2 gap-4">
+                    {/* Expiry */}
                     <div>
                       <label className="text-[10px] uppercase font-bold text-gray-400 block mb-1">Expiry Date</label>
                       <input
                         type="text"
                         required
-                        placeholder="MM / YY"
+                        placeholder="MM/YY"
                         value={cardExpiry}
-                        onChange={(e) => setCardExpiry(e.target.value)}
-                        className="w-full bg-[#F5F5F5] border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-primary text-gray-800 font-mono"
+                        maxLength={5}
+                        onChange={(e) => {
+                          const formatted = formatExpiry(e.target.value);
+                          setCardExpiry(formatted);
+                          validateCard('expiry', formatted);
+                        }}
+                        className={`w-full bg-[#F5F5F5] border rounded-lg px-3 py-2 text-xs focus:outline-none text-gray-800 font-mono ${
+                          cardErrors.expiry ? 'border-red-400 focus:border-red-400' : 'border-slate-200 focus:border-primary'
+                        }`}
                       />
+                      {cardErrors.expiry && <p className="text-[10px] text-red-500 mt-1 font-medium">{cardErrors.expiry}</p>}
                     </div>
+
+                    {/* CVC */}
                     <div>
                       <label className="text-[10px] uppercase font-bold text-gray-400 block mb-1">CVC / CVV</label>
                       <input
@@ -548,9 +623,16 @@ export default function Checkout() {
                         placeholder="•••"
                         maxLength={3}
                         value={cardCVC}
-                        onChange={(e) => setCardCVC(e.target.value)}
-                        className="w-full bg-[#F5F5F5] border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-primary text-gray-800 font-mono"
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, '').slice(0, 3);
+                          setCardCVC(val);
+                          validateCard('cvc', val);
+                        }}
+                        className={`w-full bg-[#F5F5F5] border rounded-lg px-3 py-2 text-xs focus:outline-none text-gray-800 font-mono ${
+                          cardErrors.cvc ? 'border-red-400 focus:border-red-400' : 'border-slate-200 focus:border-primary'
+                        }`}
                       />
+                      {cardErrors.cvc && <p className="text-[10px] text-red-500 mt-1 font-medium">{cardErrors.cvc}</p>}
                     </div>
                   </div>
                 </div>
@@ -566,7 +648,7 @@ export default function Checkout() {
               </button>
               <button
                 onClick={nextStep}
-                disabled={deliveryMethod !== 'cod' && (!cardName || !cardNumber || !cardExpiry || !cardCVC)}
+                disabled={deliveryMethod !== 'cod' && !isCardValid}
                 className="bg-primary text-secondary px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/95 disabled:bg-slate-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5 cursor-pointer"
               >
                 Review Order <ArrowRight className="w-4 h-4" />
