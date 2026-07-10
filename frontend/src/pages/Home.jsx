@@ -275,14 +275,14 @@ export default function Home() {
 
       {/* Flash Sale Countdown Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-red-500 rounded-2xl flat-shadow p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="bg-primary rounded-2xl flat-shadow p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
             <div className="p-3 bg-white/10 rounded-xl">
               <Clock className="w-8 h-8 text-white animate-pulse" />
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-bold">Flash Sale is Live!</h2>
-              <p className="text-xs text-red-100">Hurry, get up to 20% discount on select electronics.</p>
+              <p className="text-xs text-blue-100/90">Hurry, get up to 20% discount on select electronics.</p>
             </div>
           </div>
 
@@ -290,17 +290,17 @@ export default function Home() {
           <div className="flex gap-2 text-center text-sm font-mono font-bold select-none">
             <div className="bg-white/15 px-3 py-2 rounded-lg min-w-[50px]">
               <span className="block text-lg">{String(countdown.hours).padStart(2, '0')}</span>
-              <span className="text-[10px] uppercase font-sans text-red-200">Hrs</span>
+              <span className="text-[10px] uppercase font-sans text-blue-200">Hrs</span>
             </div>
             <span className="text-2xl self-center">:</span>
             <div className="bg-white/15 px-3 py-2 rounded-lg min-w-[50px]">
               <span className="block text-lg">{String(countdown.minutes).padStart(2, '0')}</span>
-              <span className="text-[10px] uppercase font-sans text-red-200">Min</span>
+              <span className="text-[10px] uppercase font-sans text-blue-200">Min</span>
             </div>
             <span className="text-2xl self-center">:</span>
             <div className="bg-white/15 px-3 py-2 rounded-lg min-w-[50px]">
               <span className="block text-lg">{String(countdown.seconds).padStart(2, '0')}</span>
-              <span className="text-[10px] uppercase font-sans text-red-200">Sec</span>
+              <span className="text-[10px] uppercase font-sans text-blue-200">Sec</span>
             </div>
           </div>
 
