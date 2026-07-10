@@ -5,6 +5,7 @@ import { setWishlistItems, toggleWishlistState } from '../redux/slices/wishlistS
 import { addToast } from '../redux/slices/notificationSlice.js';
 import apiService from '../api/apiService.js';
 import Breadcrumbs from '../components/Breadcrumbs.jsx';
+import ProductCard from '../components/ProductCard.jsx';
 import { DashboardSkeleton } from '../components/SkeletonLoader.jsx';
 import { 
   User, 
