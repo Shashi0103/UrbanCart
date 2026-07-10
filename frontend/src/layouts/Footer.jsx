@@ -70,11 +70,11 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-primary shrink-0" />
-              <span>+91 98765 43210 (Mon–Sat, 9 AM – 6 PM IST)</span>
+              <span>+91 91XX 7XXX 9X (Mon–Sat, 9 AM – 6 PM IST)</span>
             </li>
             <li className="flex items-center gap-2">
               <MapPin className="w-4 h-4 text-primary shrink-0" />
-              <span>123, Tech Park, Bengaluru, Karnataka – 560001, India</span>
+              <span>47-B, Nehru Nagar, Sector 12, New Delhi – 110019, India</span>
             </li>
           </ul>
           <p className="text-gray-400 text-xs pt-2">We typically respond within 24 hours on business days.</p>
@@ -83,7 +83,7 @@ export default function Footer() {
 
       {modal === 'terms' && (
         <InfoModal title="Terms of Service" onClose={() => setModal(null)}>
-          <p><strong>Last updated:</strong> January 2025</p>
+          <p><strong>Last updated:</strong> July 2026</p>
           <p>
             By accessing or using UrbanCart, you agree to be bound by these Terms of Service. Please read
             them carefully before placing any orders on our platform.
@@ -110,7 +110,7 @@ export default function Footer() {
 
       {modal === 'privacy' && (
         <InfoModal title="Privacy Policy" onClose={() => setModal(null)}>
-          <p><strong>Last updated:</strong> January 2025</p>
+          <p><strong>Last updated:</strong> July 2026</p>
           <p>
             Your privacy is important to us. This policy explains how UrbanCart collects, uses, and
             protects your personal information.
