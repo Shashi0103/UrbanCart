@@ -154,23 +154,23 @@ const seedData = async () => {
         salesCount: 12
       },
       {
-        title: 'Samsung S21 Ultra 5G',
-        description: 'Premium Samsung Galaxy S21 Ultra 5G featuring a contour-cut 108MP camera, 100x Space Zoom, Exynos 2100 processor, and S Pen support.',
-        price: 48999.00,
+        title: 'Samsung S25 Ultra 5G',
+        description: 'Flagship Samsung Galaxy S25 Ultra 5G with Snapdragon 8 Gen 4 processor, 200MP Quad Camera System, and built-in S Pen.',
+        price: 129999.00,
         discountPercentage: 5.0,
         stock: 45,
         category: catMap['mobiles'],
         brand: brandMap['samsung'],
         images: [
-          'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800',
+          'https://images.unsplash.com/photo-1707150172605-64d84fde9fa9?w=800',
           'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800'
         ],
-        colors: ['Phantom Silver', 'Phantom Black'],
-        sizes: ['128GB', '256GB'],
+        colors: ['Titanium Gray', 'Titanium Black'],
+        sizes: ['256GB', '512GB'],
         specifications: [
-          { key: 'Processor', value: 'Exynos 2100' },
-          { key: 'Camera', value: '108MP Quad Camera System' },
-          { key: 'Display', value: '6.8 inch Dynamic AMOLED 2X' }
+          { key: 'Processor', value: 'Snapdragon 8 Gen 4' },
+          { key: 'Camera', value: '200MP Quad Camera System' },
+          { key: 'Battery', value: '5000 mAh with 45W Fast Charging' }
         ],
         tags: ['smartphone', 'android', 'samsung', '5g', 'flagship'],
         viewsCount: 95,
