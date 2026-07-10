@@ -97,7 +97,7 @@ export default function AdminDashboard() {
           const ords = await apiService.orders.getAll();
           setOrders(ords);
         } else if (activeTab === 'users') {
-          const usrs = await apiService.users.getAll();
+          const usrs = await apiService.users.getAllUsers();
           setUsersList(usrs);
         }
       } catch (err) {
