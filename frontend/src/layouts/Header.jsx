@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice.js';
 import { clearCart } from '../redux/slices/cartSlice.js';
 import { setWishlistItems } from '../redux/slices/wishlistSlice.js';
-import { addToast } from '../redux/slices/notificationSlice.js';
+import { addToast, setUnreadCount } from '../redux/slices/notificationSlice.js';
 import apiService from '../api/apiService.js';
 import { 
   Search, 
@@ -44,7 +44,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-  const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const unreadNotifications = useSelector((state) => state.notifications.unreadCount || 0);
 
   const profileRef = useRef(null);
   const categoryRef = useRef(null);
@@ -61,11 +61,11 @@ export default function Header() {
         .catch(err => console.error('Failed to load wishlist items', err));
 
       apiService.notifications.getAll()
-        .then(notifs => setUnreadNotifications(notifs.filter(n => !n.read).length))
+        .then(notifs => dispatch(setUnreadCount(notifs.filter(n => !n.read).length)))
         .catch(err => console.error(err));
     } else {
       dispatch(setWishlistItems([]));
-      setUnreadNotifications(0);
+      dispatch(setUnreadCount(0));
     }
   }, [token, cartItems]); // Re-run when cart details changes or login status updates
 

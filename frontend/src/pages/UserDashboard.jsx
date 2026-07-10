@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setWishlistItems, toggleWishlistState } from '../redux/slices/wishlistSlice.js';
-import { addToast } from '../redux/slices/notificationSlice.js';
+import { addToast, setUnreadCount, decrementUnreadCount } from '../redux/slices/notificationSlice.js';
 import apiService from '../api/apiService.js';
 import Breadcrumbs from '../components/Breadcrumbs.jsx';
 import ProductCard from '../components/ProductCard.jsx';
@@ -161,7 +161,13 @@ export default function UserDashboard() {
   const handleMarkNotificationRead = async (notifId) => {
     try {
       await apiService.notifications.markAsRead(notifId);
-      setNotifications(prev => prev.map(n => n._id === notifId ? { ...n, read: true } : n));
+      setNotifications(prev => prev.map(n => {
+        if (n._id === notifId && !n.read) {
+          dispatch(decrementUnreadCount());
+          return { ...n, read: true };
+        }
+        return n;
+      }));
     } catch (err) {
       console.error(err);
     }
@@ -171,6 +177,7 @@ export default function UserDashboard() {
     try {
       await apiService.notifications.markAllAsRead();
       setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+      dispatch(setUnreadCount(0));
       dispatch(addToast({ text: 'All notifications marked as read', type: 'success' }));
     } catch (err) {
       console.error(err);

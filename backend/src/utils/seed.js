@@ -57,6 +57,7 @@ const seedData = async () => {
     const brandsData = [
       { name: 'Apple', slug: 'apple', description: 'Designed by Apple in California', logo: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=500' },
       { name: 'Samsung', slug: 'samsung', description: 'Inspire the World, Create the Future', logo: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500' },
+      { name: 'Fujifilm', slug: 'fujifilm', description: 'Value from Innovation', logo: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500' },
       { name: 'Dell', slug: 'dell', description: 'Powering possibilities', logo: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500' },
       { name: 'Nike', slug: 'nike', description: 'Just Do It', logo: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500' },
       { name: 'Sony', slug: 'sony', description: 'Be Moved', logo: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500' },
@@ -153,25 +154,25 @@ const seedData = async () => {
         salesCount: 12
       },
       {
-        title: 'OnePlus 12R',
-        description: 'Powered by Snapdragon 8 Gen 2, dual cryo-velocity VC cooling, and standard 50MP Sony IMX890 camera sensor.',
-        price: 39999.00,
-        discountPercentage: 8.0,
+        title: 'Samsung S25 Ultra 5G',
+        description: 'Flagship Samsung Galaxy S25 Ultra 5G with Snapdragon 8 Gen 4 processor, 200MP Quad Camera System, and built-in S Pen.',
+        price: 124999.00,
+        discountPercentage: 5.0,
         stock: 45,
         category: catMap['mobiles'],
-        brand: brandMap['oneplus'],
+        brand: brandMap['samsung'],
         images: [
-          'https://images.unsplash.com/photo-1610792516307-ea5acd9c3b00?w=800',
-          'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800'
+          'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800',
+          'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800'
         ],
-        colors: ['Cool Blue', 'Iron Gray'],
-        sizes: ['8GB RAM | 128GB', '16GB RAM | 256GB'],
+        colors: ['Titanium Gray', 'Titanium Black'],
+        sizes: ['256GB', '512GB'],
         specifications: [
-          { key: 'Processor', value: 'Snapdragon 8 Gen 2' },
-          { key: 'Battery', value: '5500 mAh' },
-          { key: 'Charging', value: '100W SUPERVOOC' }
+          { key: 'Processor', value: 'Snapdragon 8 Gen 4' },
+          { key: 'Camera', value: '200MP Quad Camera System' },
+          { key: 'Battery', value: '5000 mAh with 45W Fast Charging' }
         ],
-        tags: ['smartphone', 'android', 'oneplus', '5g'],
+        tags: ['smartphone', 'android', 'samsung', '5g', 'flagship'],
         viewsCount: 95,
         salesCount: 19
       },
@@ -616,7 +617,7 @@ const seedData = async () => {
         discountPercentage: 10.0,
         stock: 30,
         category: catMap['electronics'],
-        brand: brandMap['sony'],
+        brand: brandMap['fujifilm'],
         images: [
           'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800',
           'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=800'

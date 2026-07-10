@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  toasts: [] // Array of { id, text, type, duration }
+  toasts: [], // Array of { id, text, type, duration }
+  unreadCount: 0
 };
 
 const notificationSlice = createSlice({
@@ -16,9 +17,15 @@ const notificationSlice = createSlice({
     removeToast(state, action) {
       const id = action.payload;
       state.toasts = state.toasts.filter((toast) => toast.id !== id);
+    },
+    setUnreadCount(state, action) {
+      state.unreadCount = action.payload;
+    },
+    decrementUnreadCount(state) {
+      state.unreadCount = Math.max(0, state.unreadCount - 1);
     }
   }
 });
 
-export const { addToast, removeToast } = notificationSlice.actions;
+export const { addToast, removeToast, setUnreadCount, decrementUnreadCount } = notificationSlice.actions;
 export default notificationSlice.reducer;
