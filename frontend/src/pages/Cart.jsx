@@ -48,6 +48,11 @@ export default function Cart() {
   }, [token, dispatch]);
 
   const handleQtyChange = async (productId, quantity, color, size) => {
+    if (quantity <= 0) {
+      await handleRemove(productId, color, size);
+      return;
+    }
+
     dispatch(updateQuantity({ productId, quantity, color, size }));
 
     if (token) {
