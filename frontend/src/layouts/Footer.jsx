@@ -74,7 +74,7 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-2">
               <MapPin className="w-4 h-4 text-primary shrink-0" />
-              <span>47-B, Nehru Nagar, Sector 12, New Delhi – 110019, India</span>
+              <span>Tech Park, Ranchi, Jharkhand – 835303, India</span>
             </li>
           </ul>
           <p className="text-gray-400 text-xs pt-2">We typically respond within 24 hours on business days.</p>
