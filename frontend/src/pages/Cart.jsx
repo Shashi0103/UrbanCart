@@ -101,7 +101,7 @@ export default function Cart() {
 
     try {
       // Toggle wishlist state
-      const alreadyWishlisted = wishlistItems.some((w) => w._id === item.product._id);
+      const alreadyWishlisted = (wishlistItems || []).filter(Boolean).some((w) => w._id === item.product._id);
       if (!alreadyWishlisted) {
         await apiService.wishlist.toggle(item.product._id);
         dispatch(toggleWishlistState(item.product));

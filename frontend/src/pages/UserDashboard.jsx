@@ -473,11 +473,11 @@ export default function UserDashboard() {
                       <div key={i} className="h-48 bg-slate-100 animate-pulse rounded-lg" />
                     ))}
                   </div>
-                ) : wishlist.length === 0 ? (
+                ) : (wishlist || []).filter(Boolean).length === 0 ? (
                   <p className="text-sm text-gray-400 italic">Your wishlist is empty.</p>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {wishlist.map((prod) => (
+                    {(wishlist || []).filter(Boolean).map((prod) => (
                       <div key={prod._id} className="relative group">
                         <ProductCard product={prod} />
                         <button

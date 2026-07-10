@@ -83,7 +83,7 @@ export default function ProductDetails() {
     enabled: !!id
   });
 
-  const isWishlisted = wishlistItems.some((item) => item._id === id);
+  const isWishlisted = (wishlistItems || []).filter(Boolean).some((item) => item._id === id);
 
   // 4. Hover Zoom logic
   const handleMouseMove = (e) => {

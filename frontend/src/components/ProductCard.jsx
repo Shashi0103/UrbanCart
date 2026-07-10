@@ -18,7 +18,7 @@ export default function ProductCard({ product }) {
   const [selectedColor] = useState(product.colors?.[0] || '');
   const [selectedSize] = useState(product.sizes?.[0] || '');
 
-  const isWishlisted = wishlistItems.some((item) => item._id === product._id);
+  const isWishlisted = (wishlistItems || []).filter(Boolean).some((item) => item._id === product._id);
 
   // Toggle Wishlist
   const handleWishlistToggle = async (e) => {

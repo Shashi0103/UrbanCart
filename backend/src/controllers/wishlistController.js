@@ -12,7 +12,7 @@ export const getWishlist = async (req, res) => {
       wishlist = await Wishlist.create({ user: req.user._id, products: [] });
     }
 
-    res.json(wishlist.products);
+    res.json((wishlist.products || []).filter(p => p !== null));
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -44,7 +44,7 @@ export const toggleWishlistItem = async (req, res) => {
     const populatedWishlist = await Wishlist.findOne({ user: req.user._id })
       .populate('products', 'title price discountPercentage images stock rating');
 
-    res.json(populatedWishlist.products);
+    res.json((populatedWishlist.products || []).filter(p => p !== null));
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
