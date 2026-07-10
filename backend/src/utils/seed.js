@@ -162,8 +162,8 @@ const seedData = async () => {
         category: catMap['mobiles'],
         brand: brandMap['samsung'],
         images: [
-          'https://images.unsplash.com/photo-1707150172605-64d84fde9fa9?w=800',
-          'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800'
+          'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800',
+          'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800'
         ],
         colors: ['Titanium Gray', 'Titanium Black'],
         sizes: ['256GB', '512GB'],
