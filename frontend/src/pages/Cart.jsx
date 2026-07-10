@@ -47,6 +47,11 @@ export default function Cart() {
     }
   }, [token, dispatch]);
 
+  const getProductId = (p) => {
+    if (!p) return '';
+    return typeof p === 'object' ? (p._id || p) : p;
+  };
+
   const handleQtyChange = async (productId, quantity, color, size) => {
     if (quantity <= 0) {
       await handleRemove(productId, color, size);
@@ -58,12 +63,12 @@ export default function Cart() {
     if (token) {
       try {
         const updatedItems = cart.items.map((item) => {
-          if (item.product._id === productId && item.color === color && item.size === size) {
+          if (getProductId(item.product) === productId && item.color === color && item.size === size) {
             return { ...item, quantity };
           }
           return item;
         }).map(i => ({
-          product: i.product._id,
+          product: getProductId(i.product),
           quantity: i.quantity,
           color: i.color,
           size: i.size
@@ -82,9 +87,9 @@ export default function Cart() {
     if (token) {
       try {
         const updatedItems = cart.items.filter(
-          (item) => !(item.product._id === productId && item.color === color && item.size === size)
+          (item) => !(getProductId(item.product) === productId && item.color === color && item.size === size)
         ).map(i => ({
-          product: i.product._id,
+          product: getProductId(i.product),
           quantity: i.quantity,
           color: i.color,
           size: i.size

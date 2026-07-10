@@ -58,12 +58,17 @@ export default function ProductCard({ product }) {
     dispatch(addToCart({ product, quantity: 1, color: selectedColor, size: selectedSize }));
     dispatch(addToast({ text: `${product.title} added to cart`, type: 'success' }));
 
+    const getProductId = (p) => {
+      if (!p) return '';
+      return typeof p === 'object' ? (p._id || p) : p;
+    };
+
     // Sync to DB if logged in
     if (token) {
       try {
         const existingIndex = cartItems.findIndex(
           (i) =>
-            i.product._id === product._id &&
+            getProductId(i.product) === product._id &&
             i.color === selectedColor &&
             i.size === selectedSize
         );
@@ -73,7 +78,7 @@ export default function ProductCard({ product }) {
           updatedCartItems = cartItems.map((item, idx) => {
             const isTarget = idx === existingIndex;
             return {
-              product: item.product._id,
+              product: getProductId(item.product),
               quantity: isTarget 
                 ? Math.min(product.stock, item.quantity + 1) 
                 : item.quantity,
@@ -84,7 +89,7 @@ export default function ProductCard({ product }) {
         } else {
           updatedCartItems = [
             ...cartItems.map((i) => ({
-              product: i.product._id,
+              product: getProductId(i.product),
               quantity: i.quantity,
               color: i.color,
               size: i.size

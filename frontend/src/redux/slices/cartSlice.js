@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const getProductId = (product) => {
+  if (!product) return '';
+  return typeof product === 'object' ? (product._id || product) : product;
+};
+
 const storedCart = localStorage.getItem('urbancart_cart')
   ? JSON.parse(localStorage.getItem('urbancart_cart'))
   : [];
@@ -65,7 +70,7 @@ const cartSlice = createSlice({
       const { product, quantity, color, size } = action.payload;
       const existingItem = state.items.find(
         (item) =>
-          item.product._id === product._id &&
+          getProductId(item.product) === getProductId(product) &&
           item.color === color &&
           item.size === size
       );
@@ -81,7 +86,7 @@ const cartSlice = createSlice({
       const { productId, quantity, color, size } = action.payload;
       const item = state.items.find(
         (item) =>
-          item.product._id === productId &&
+          getProductId(item.product) === productId &&
           item.color === color &&
           item.size === size
       );
@@ -94,7 +99,7 @@ const cartSlice = createSlice({
       const { productId, color, size } = action.payload;
       state.items = state.items.filter(
         (item) =>
-          !(item.product._id === productId && item.color === color && item.size === size)
+          !(getProductId(item.product) === productId && item.color === color && item.size === size)
       );
       calculateTotals(state);
     },
