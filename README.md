@@ -192,11 +192,6 @@ This app uses **Stripe Sandbox mode**. No real charges are made.
 
 ---
 
-## 📸 Screenshots
-
-> Coming soon
-
----
 
 ## 🤝 Contributing
 

@@ -146,7 +146,7 @@ export default function Footer() {
                 URBAN<span className="text-gray-900 font-medium">CART</span>
               </h2>
               <p className="text-sm text-gray-500 leading-relaxed">
-                Experience the future of e-commerce. Clean, minimal, and lightning-fast shopping designed around your needs.
+                From wishlist to doorstep — UrbanCart makes every purchase effortless.
               </p>
               <div className="flex gap-4">
                 <a href="#" className="text-gray-400 hover:text-primary transition-colors">
