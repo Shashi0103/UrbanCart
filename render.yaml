@@ -20,13 +20,13 @@ services:
         sync: false
       - key: CLIENT_URL
         fromService:
-          name: urbancart
+          name: urbancartshopping
           type: web
           property: host
 
   # ─── Frontend Static Site ─────────────────────────────────────────────────────
   - type: web
-    name: urbancart
+    name: urbancartshopping
     runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
