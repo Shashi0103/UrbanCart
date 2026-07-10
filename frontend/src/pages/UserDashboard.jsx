@@ -316,28 +316,49 @@ export default function UserDashboard() {
 
                         {/* Order Status Tracking timeline */}
                         <div className="p-4 bg-white border-b border-slate-100 select-none">
-                          <h4 className="text-xs font-bold text-gray-700 mb-4">Delivery Progress</h4>
-                          <div className="flex justify-between items-center text-[10px] text-gray-400 font-bold max-w-lg mx-auto">
-                            {['Placed', 'Confirmed', 'Shipped', 'Delivered'].map((tName, tIdx) => {
-                              // Calculate if status is achieved in tracking history
-                              const isCompleted = order.trackingHistory?.some(h => h.status === tName) || 
-                                                 (tName === 'Placed' && order.status !== 'Cancelled') ||
-                                                 (tName === 'Confirmed' && ['Confirmed', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered'].includes(order.status)) ||
-                                                 (tName === 'Shipped' && ['Shipped', 'Out for Delivery', 'Delivered'].includes(order.status)) ||
-                                                 (tName === 'Delivered' && order.status === 'Delivered');
+                          {order.status === 'Cancelled' ? (
+                            /* ── Cancelled State ── */
+                            <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                              <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center shrink-0">
+                                <span className="text-white text-sm font-bold">✕</span>
+                              </div>
+                              <div>
+                                <p className="text-xs font-bold text-red-700">Order Cancelled</p>
+                                <p className="text-[10px] text-red-500 font-medium mt-0.5">
+                                  This order has been cancelled
+                                  {order.trackingHistory?.find(h => h.status === 'Cancelled')
+                                    ? ` on ${new Date(order.trackingHistory.find(h => h.status === 'Cancelled').timestamp).toLocaleDateString()}`
+                                    : ''
+                                  }. If you were charged, a refund will be processed within 5–7 business days.
+                                </p>
+                              </div>
+                            </div>
+                          ) : (
+                            /* ── Normal Progress Tracker ── */
+                            <>
+                              <h4 className="text-xs font-bold text-gray-700 mb-4">Delivery Progress</h4>
+                              <div className="flex justify-between items-center text-[10px] text-gray-400 font-bold max-w-lg mx-auto">
+                                {['Placed', 'Confirmed', 'Shipped', 'Delivered'].map((tName, tIdx) => {
+                                  const isCompleted = order.trackingHistory?.some(h => h.status === tName) ||
+                                                     (tName === 'Placed' && order.status !== 'Cancelled') ||
+                                                     (tName === 'Confirmed' && ['Confirmed', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered'].includes(order.status)) ||
+                                                     (tName === 'Shipped' && ['Shipped', 'Out for Delivery', 'Delivered'].includes(order.status)) ||
+                                                     (tName === 'Delivered' && order.status === 'Delivered');
 
-                              return (
-                                <div key={tIdx} className="flex flex-col items-center gap-1 flex-1 relative">
-                                  <div className={`w-5 h-5 rounded-full flex items-center justify-center border transition-all ${
-                                    isCompleted ? 'bg-green-500 border-green-500 text-white text-[8px]' : 'border-slate-200 bg-white'
-                                  }`}>
-                                    {isCompleted ? '✓' : ''}
-                                  </div>
-                                  <span className={isCompleted ? 'text-green-600' : ''}>{tName}</span>
-                                </div>
-                              );
-                            })}
-                          </div>
+                                  return (
+                                    <div key={tIdx} className="flex flex-col items-center gap-1 flex-1 relative">
+                                      <div className={`w-5 h-5 rounded-full flex items-center justify-center border transition-all ${
+                                        isCompleted ? 'bg-green-500 border-green-500 text-white text-[8px]' : 'border-slate-200 bg-white'
+                                      }`}>
+                                        {isCompleted ? '✓' : ''}
+                                      </div>
+                                      <span className={isCompleted ? 'text-green-600' : ''}>{tName}</span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </>
+                          )}
                         </div>
 
                         {/* Items list inside order */}
